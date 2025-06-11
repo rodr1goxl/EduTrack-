@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>EduTrack - Organização Escolar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">Edu<span>Track</span></a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i> <span>Início</span></a></li>
+                    <!-- No menu de navegação, adicione este item após os outros -->
+<li><a href="#" data-page="holidays"><i class="fas fa-calendar-day"></i> <span>Feriados</span></a></li>
+                    <li><a href="#" data-page="subjects"><i class="fas fa-book"></i> <span>Matérias</span></a></li>
+                    <li><a href="#" data-page="study-plan"><i class="fas fa-tasks"></i> <span>Planejamento</span></a></li>
+                    <li><a href="#" data-page="grades"><i class="fas fa-chart-line"></i> <span>Notas</span></a></li>
+                    <li><a href="#" data-page="tasks"><i class="fas fa-calendar-check"></i> <span>Tarefas</span></a></li>
+                    <li><button onclick="logout()" class="btn">Sair</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <aside class="sidebar">
+                
+                <h3><i class="fas fa-calendar-day"></i> Hoje</h3>
+                <div class="card">
+                    <div id="current-date">Segunda-feira, 10 de Junho de 2025</div>
+                    <div id="current-period">Aula atual: Matemática (13:30 - 14:20)</div>
+                </div>
+
+                <h3><i class="fas fa-bell"></i> Lembretes</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#"><i class="fas fa-exclamation-circle"></i> Prova de Química amanhã</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Tarefa de Matemática pendente</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Média baixa em Física</a></li>
+                </ul>
+
+                <h3><i class="fas fa-calendar-alt"></i> Próximos Eventos</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#"><i class="fas fa-flask"></i> Prova de Química: 11/06</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Entrega redação: 15/06</a></li>
+                    <li><a href="#"><i class="fas fa-calculator"></i> Prova de Matemática: 18/06</a></li>
+                </ul>
+            </aside>
+
+            <main class="content-area">
+                <!-- Dashboard Page -->
+                <section id="dashboard-page" class="page">
+                    <div class="page-header">
+                        <h2>Visão Geral</h2>
+                        <div>
+                            <button class="btn" id="add-task-btn"><i class="fas fa-plus"></i> Adicionar Tarefa</button>
+                        </div>
+                    </div>
+
+                    <div class="today-highlights">
+                        <div class="highlight-card" id="today-subjects-card">
+                            <div class="icon"><i class="fas fa-book"></i></div>
+                            <h3>Matérias Hoje</h3>
+                            <p id="today-subjects-count">5</p>
+                        </div>
+                        <div class="highlight-card" id="pending-tasks-card">
+                            <div class="icon"><i class="fas fa-tasks"></i></div>
+                            <h3>Tarefas Pendentes</h3>
+                            <p id="pending-tasks-count">3</p>
+                        </div>
+                        <div class="highlight-card" id="next-test-card">
+                            <div class="icon"><i class="fas fa-flask"></i></div>
+                            <h3>Próxima Prova</h3>
+                            <p id="next-test-subject">Química</p>
+                        </div>
+                        <div class="highlight-card" id="lowest-grade-card">
+                            <div class="icon"><i class="fas fa-chart-line"></i></div>
+                            <h3>Média mais Baixa</h3>
+                            <p id="lowest-average">Nenhuma nota adicionada</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Horário de Hoje</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Horário</th>
+                                            <th>Matéria</th>
+                                            <th>Professor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="today-schedule">
+                                        <!-- Populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Tarefas Urgentes</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="urgent-tasks">
+                                    <!-- Populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Calendário Semanal</h3>
+                            <div>
+                                
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="timetable">
+                                <thead>
+                                </thead>
+                                <tbody id="weekly-schedule">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Subjects Page -->
+                <section id="subjects-page" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Controle de Matérias</h2>
+                        <div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Horário Semanal</h3>
+                            <div>
+                                
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="timetable">
+                                <thead>
+                                    <tr>
+                                        <th>Horário</th>
+                                        <th>Segunda</th>
+                                        <th>Terça</th>
+                                        <th>Quarta</th>
+                                        <th>Quinta</th>
+                                        <th>Sexta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="full-weekly-schedule">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-3">
+                        <div class="subject-card">
+                            <h3>Matemática</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professores: José</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Seg (4º), Qua (2º-3º), Sex (3º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Livro 1, Caderno de Exercícios</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Português</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professora: Célia</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Ter (1º-5º), Qui (3º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Gramática, Livro de Redação</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Inglês</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professora: Ana</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Seg (1º), Qua (4º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Livro de Gramática</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Espanhol</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professor: Carlos</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Ter (2º), Qui (5º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Dicionário, Caderno</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Artes</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professora: Mariana</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Sex (2º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Lápis de cor, Papel</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Filosofia</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professor: André</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Seg (3º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Textos Filosóficos</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Sociologia</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professora: Rafaela</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Qui (1º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Livro Didático</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Educação Física</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professor: Celso</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Qua (5º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Uniforme</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Química</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professora: Eliane</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Seg (2º), Qua (5º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Tabela Periódica, Caderno</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Física</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professor: Paulo</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Ter (3º), Qui (2º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Livro Didático, Calculadora</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Biologia</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professora: Sandra</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Qui (4º), Sex (1º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Atlas Anatômico</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>História</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professor: Giovane</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Qui (5º), Sex (4º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Livro Texto, Mapas</p>
+                        </div>
+                        <div class="subject-card">
+                            <h3>Geografia</h3>
+                            <p><i class="fas fa-chalkboard-teacher"></i> Professores: Cátia, Maurício</p>
+                            <p><i class="fas fa-calendar-alt"></i> Aulas: Ter (4º), Qui (1º)</p>
+                            <p><i class="fas fa-book"></i> Materiais: Atlas Geográfico</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Study Plan Page -->
+                <section id="study-plan-page" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Planejamento de Estudos</h2>
+                        <div>
+                            <button class="btn" id="add-study-plan-btn"><i class="fas fa-plus"></i> Novo Plano</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Criar Novo Plano de Estudo</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="study-plan-form">
+                                <div class="form-group">
+                                    <label for="plan-subject">Matéria</label>
+                                    <select id="plan-subject" class="form-control" required>
+                                        <option value="">Selecione uma matéria</option>
+                                        <option value="matematica">Matemática</option>
+                                        <option value="portugues">Português</option>
+                                        <option value="ingles">Inglês</option>
+                                        <option value="espanhol">Espanhol</option>
+                                        <option value="artes">Artes</option>
+                                        <option value="filosofia">Filosofia</option>
+                                        <option value="sociologia">Sociologia</option>
+                                        <option value="educacao_fisica">Educação Física</option>
+                                        <option value="quimica">Química</option>
+                                        <option value="fisica">Física</option>
+                                        <option value="biologia">Biologia</option>
+                                        <option value="historia">História</option>
+                                        <option value="geografia">Geografia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="plan-topic">Tópico/Conteúdo</label>
+                                    <input type="text" id="plan-topic" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="plan-date">Data Alvo</label>
+                                    <input type="date" id="plan-date" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="plan-hours">Horas de Estudo</label>
+                                    <input type="number" id="plan-hours" class="form-control" min="0.5" step="0.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="plan-notes">Notas/Materiais</label>
+                                    <textarea id="plan-notes" class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn">Salvar Plano</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Meus Planos de Estudo</h3>
+                            <div>
+                                <select id="filter-subject" class="form-control" style="width: auto;">
+                                    <option value="">Todas as Matérias</option>
+                                    <option value="matematica">Matemática</option>
+                                    <option value="portugues">Português</option>
+                                    <option value="ingles">Inglês</option>
+                                    <option value="espanhol">Espanhol</option>
+                                    <option value="artes">Artes</option>
+                                    <option value="filosofia">Filosofia</option>
+                                    <option value="sociologia">Sociologia</option>
+                                    <option value="educacao_fisica">Educação Física</option>
+                                    <option value="quimica">Química</option>
+                                    <option value="fisica">Física</option>
+                                    <option value="biologia">Biologia</option>
+                                    <option value="historia">História</option>
+                                    <option value="geografia">Geografia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Matéria</th>
+                                        <th>Tópico</th>
+                                        <th>Data Alvo</th>
+                                        <th>Horas</th>
+                                        <th>Progresso</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="study-plans-list">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Grades Page -->
+                <section id="grades-page" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Notas e Médias</h2>
+                        <div>
+                            <button class="btn" id="add-grade-btn"><i class="fas fa-plus"></i> Adicionar Nota</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Adicionar Nova Nota</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="grade-form">
+                                <div class="grid grid-3">
+                                    <div class="form-group">
+                                        <label for="grade-subject">Matéria</label>
+                                        <select id="grade-subject" class="form-control" required>
+                                            <option value="">Selecione uma matéria</option>
+                                            <option value="matematica">Matemática</option>
+                                            <option value="portugues">Português</option>
+                                            <option value="ingles">Inglês</option>
+                                            <option value="espanhol">Espanhol</option>
+                                            <option value="artes">Artes</option>
+                                            <option value="filosofia">Filosofia</option>
+                                            <option value="sociologia">Sociologia</option>
+                                            <option value="educacao_fisica">Educação Física</option>
+                                            <option value="quimica">Química</option>
+                                            <option value="fisica">Física</option>
+                                            <option value="biologia">Biologia</option>
+                                            <option value="historia">História</option>
+                                            <option value="geografia">Geografia</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="grade-type">Tipo</label>
+                                        <select id="grade-type" class="form-control" required>
+                                            <option value="">Selecione o tipo</option>
+                                            <option value="prova">Prova</option>
+                                            <option value="trabalho">Trabalho</option>
+                                            <option value="participacao">Participação</option>
+                                            <option value="atividade">Atividade</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="grade-date">Data</label>
+                                        <input type="date" id="grade-date" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="grade-description">Descrição</label>
+                                    <input type="text" id="grade-description" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="grade-value">Nota (0-10)</label>
+                                    <input type="number" id="grade-value" class="form-control" min="0" max="10" step="0.1" required>
+                                </div>
+                                <button type="submit" class="btn">Salvar Nota</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Minhas Notas por Matéria</h3>
+                            <div>
+                                <select id="grade-filter-subject" class="form-control" style="width: auto;">
+                                    <option value="">Todas as Matérias</option>
+                                    <option value="matematica">Matemática</option>
+                                    <option value="portugues">Português</option>
+                                    <option value="ingles">Inglês</option>
+                                    <option value="espanhol">Espanhol</option>
+                                    <option value="artes">Artes</option>
+                                    <option value="filosofia">Filosofia</option>
+                                    <option value="sociologia">Sociologia</option>
+                                    <option value="educacao_fisica">Educação Física</option>
+                                    <option value="quimica">Química</option>
+                                    <option value="fisica">Física</option>
+                                    <option value="biologia">Biologia</option>
+                                    <option value="historia">História</option>
+                                    <option value="geografia">Geografia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-3" id="subjects-grades-container">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Detalhes das Notas</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Matéria</th>
+                                        <th>Tipo</th>
+                                        <th>Descrição</th>
+                                        <th>Data</th>
+                                        <th>Nota</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="grades-list">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tasks Page -->
+                <section id="tasks-page" class="page" style="display: none;">
+                    <div class="page-header">
+                        <h2>Tarefas e Provas</h2>
+                        <div>
+                            <button class="btn" id="add-task-btn"><i class="fas fa-plus"></i> Nova Tarefa</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Adicionar Nova Tarefa</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="task-form">
+                                    <div class="form-group">
+                                        <label for="task-title">Título</label>
+                                        <input type="text" id="task-title" class="form-control" required>
+                                    </div>
+                                    <div class="grid grid-2">
+                                        <div class="form-group">
+                                            <label for="task-subject">Matéria</label>
+                                            <select id="task-subject" class="form-control" required>
+                                                <option value="">Selecione uma matéria</option>
+                                                <option value="matematica">Matemática</option>
+                                                <option value="portugues">Português</option>
+                                                <option value="ingles">Inglês</option>
+                                                <option value="espanhol">Espanhol</option>
+                                                <option value="artes">Artes</option>
+                                                <option value="filosofia">Filosofia</option>
+                                                <option value="sociologia">Sociologia</option>
+                                                <option value="educacao_fisica">Educação Física</option>
+                                                <option value="quimica">Química</option>
+                                                <option value="fisica">Física</option>
+                                                <option value="biologia">Biologia</option>
+                                                <option value="historia">História</option>
+                                                <option value="geografia">Geografia</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="task-type">Tipo</label>
+                                            <select id="task-type" class="form-control" required>
+                                                <option value="tarefa">Tarefa</option>
+                                                <option value="prova">Prova</option>
+                                                <option value="trabalho">Trabalho</option>
+                                                <option value="leitura">Leitura</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="task-due-date">Data de Entrega</label>
+                                        <input type="date" id="task-due-date" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="task-priority">Prioridade</label>
+                                        <select id="task-priority" class="form-control" required>
+                                            <option value="alta">Alta</option>
+                                            <option value="media" selected>Média</option>
+                                            <option value="baixa">Baixa</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="task-notes">Notas</label>
+                                        <textarea id="task-notes" class="form-control" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn">Salvar Tarefa</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Filtros</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="grid grid-2">
+                                    <div class="form-group">
+                                        <label for="filter-status">Status</label>
+                                        <select id="filter-status" class="form-control">
+                                            <option value="all">Todos</option>
+                                            <option value="pending">Pendentes</option>
+                                            <option value="completed">Concluídos</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="filter-subject-task">Matéria</label>
+                                        <select id="filter-subject-task" class="form-control">
+                                            <option value="all">Todas</option>
+                                            <option value="matematica">Matemática</option>
+                                            <option value="portugues">Português</option>
+                                            <option value="ingles">Inglês</option>
+                                            <option value="espanhol">Espanhol</option>
+                                            <option value="artes">Artes</option>
+                                            <option value="filosofia">Filosofia</option>
+                                            <option value="sociologia">Sociologia</option>
+                                            <option value="educacao_fisica">Educação Física</option>
+                                            <option value="quimica">Química</option>
+                                            <option value="fisica">Física</option>
+                                            <option value="biologia">Biologia</option>
+                                            <option value="historia">História</option>
+                                            <option value="geografia">Geografia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="filter-date-range">Período</label>
+                                    <select id="filter-date-range" class="form-control">
+                                        <option value="all">Todos</option>
+                                        <option value="today">Hoje</option>
+                                        <option value="week">Esta semana</option>
+                                        <option value="month">Este mês</option>
+                                        <option value="future">Futuro</option>
+                                        <option value="past">Passado</option>
+                                    </select>
+                                </div>
+                                <button id="apply-filters" class="btn">Aplicar Filtros</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Minhas Tarefas</h3>
+                            <div>
+                               
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="tasks-list">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="calendar-view" style="display: none;">
+                        <div class="card-header">
+                            <h3>Calendário de Tarefas</h3>
+                            <div>
+                                <button class="btn-outline" id="view-list-btn"><i class="fas fa-list"></i> Ver Lista</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="calendar">
+                                <thead>
+                                    <tr>
+                                        <th>Dom</th>
+                                        <th>Seg</th>
+                                        <th>Ter</th>
+                                        <th>Qua</th>
+                                        <th>Qui</th>
+                                        <th>Sex</th>
+                                        <th>Sáb</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="calendar-body">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <!-- Adicione esta seção junto com as outras pages -->
+<section id="holidays-page" class="page" style="display: none;">
+    <div class="page-header">
+        <h2>Calendário de Feriados</h2>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <div class="calendar-navigation">
+                <button id="prev-month" class="btn-outline"><i class="fas fa-chevron-left"></i></button>
+                <h3 id="current-month-year">Junho 2025</h3>
+                <button id="next-month" class="btn-outline"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="holiday-calendar">
+                <thead>
+                    <tr>
+                        <th>Dom</th>
+                        <th>Seg</th>
+                        <th>Ter</th>
+                        <th>Qua</th>
+                        <th>Qui</th>
+                        <th>Sex</th>
+                        <th>Sáb</th>
+                    </tr>
+                </thead>
+                <tbody id="holiday-calendar-body">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer" id="event-details">
+            <!-- Event details will appear here -->
+        </div>
+    </div>
+</section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Grade Edit Modal -->
+    <div class="modal" id="grade-edit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Nota</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="edit-grade-form">
+                <input type="hidden" id="edit-grade-id">
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label for="edit-grade-subject">Matéria</label>
+                        <select id="edit-grade-subject" class="form-control" required>
+                            <option value="matematica">Matemática</option>
+                            <option value="portugues">Português</option>
+                            <option value="ingles">Inglês</option>
+                            <option value="espanhol">Espanhol</option>
+                            <option value="artes">Artes</option>
+                            <option value="filosofia">Filosofia</option>
+                            <option value="sociologia">Sociologia</option>
+                            <option value="educacao_fisica">Educação Física</option>
+                            <option value="quimica">Química</option>
+                            <option value="fisica">Física</option>
+                            <option value="biologia">Biologia</option>
+                            <option value="historia">História</option>
+                            <option value="geografia">Geografia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-grade-type">Tipo</label>
+                        <select id="edit-grade-type" class="form-control" required>
+                            <option value="prova">Prova</option>
+                            <option value="trabalho">Trabalho</option>
+                            <option value="participacao">Participação</option>
+                            <option value="atividade">Atividade</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-grade-date">Data</label>
+                        <input type="date" id="edit-grade-date" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-grade-description">Descrição</label>
+                    <input type="text" id="edit-grade-description" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="edit-grade-value">Nota (0-10)</label>
+                    <input type="number" id="edit-grade-value" class="form-control" min="0" max="10" step="0.1" required>
+                </div>
+                <button type="submit" class="btn">Salvar Alterações</button>
+                <button type="button" class="btn-outline" id="cancel-edit-grade">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>EduTrack &copy; 2025 - Organização Escolar para Estudantes</p>
+        </div>
+        
+    </footer>
+    <script src="script.js"></script>
+    <!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+  import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBJpH3N9svXVDt92hoGtKUgtd0lt1917Cs",
+    authDomain: "edutrack-2e6dd.firebaseapp.com",
+    projectId: "edutrack-2e6dd",
+    storageBucket: "edutrack-2e6dd.firebasestorage.app",
+    messagingSenderId: "694929709555",
+    appId: "1:694929709555:web:c70c7308d9e397802eda86",
+    measurementId: "G-813T6B6513"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const database = getDatabase(app);
+
+  // Verifica autenticação
+  onAuthStateChanged(auth, (user) => {
+    if (!user) window.location.href = "login.html";
+    else loadUserData(user.uid); // Carrega dados ao logar
+  });
+
+  // Função para carregar dados do usuário
+  function loadUserData(userId) {
+    const userRef = ref(database, `users/${userId}`);
+    
+    onValue(userRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // Atualiza localStorage (para compatibilidade com seu código existente)
+        if (data.tasks) localStorage.setItem('tasks', JSON.stringify(data.tasks));
+        if (data.grades) localStorage.setItem('grades', JSON.stringify(data.grades));
+        if (data.studyPlans) localStorage.setItem('studyPlans', JSON.stringify(data.studyPlans));
+        
+        // Inicializa o app (seu código original)
+        initApp();
+      }
+    });
+  }
+
+  // Função para salvar dados (adaptada para Realtime Database)
+  window.saveAllData = async () => {
+    const user = auth.currentUser;
+    if (!user) return false;
+
+    try {
+      await set(ref(database, `users/${user.uid}`), {
+        tasks: JSON.parse(localStorage.getItem('tasks') || '[]'),
+        grades: JSON.parse(localStorage.getItem('grades') || '[]'),
+        studyPlans: JSON.parse(localStorage.getItem('studyPlans') || '[]'),
+        lastUpdated: new Date().toISOString()
+      });
+      return true;
+    } catch (error) {
+      console.error("Erro ao salvar:", error);
+      return false;
+    }
+  };
+
+  // Função de logout
+  window.logout = () => signOut(auth).then(() => window.location.href = "login.html");
+</script>
+</body>
+</html>
