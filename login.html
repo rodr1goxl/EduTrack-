@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - EduTrack</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input, button {
+      margin: 8px;
+      padding: 10px;
+      width: 250px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #10A37F;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #2ea043;
+    }
+    #erro {
+      color: #ff6b6b;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    
+  </style>
+</head>
+<body>
+  <h2>Entrar no EduTrack</h2>
+
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="senha" placeholder="Senha" />
+
+  <button onclick="login()">Entrar</button>
+  <button onclick="registrar()">Criar Conta</button>
+
+  <p id="erro"></p>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBJpH3N9svXVDt92hoGtKUgtd0lt1917Cs",
+    authDomain: "edutrack-2e6dd.firebaseapp.com",
+    projectId: "edutrack-2e6dd",
+    storageBucket: "edutrack-2e6dd.firebasestorage.app",
+    messagingSenderId: "694929709555",
+    appId: "1:694929709555:web:c70c7308d9e397802eda86",
+    measurementId: "G-813T6B6513"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Verifica se usuário já está logado
+  auth.onAuthStateChanged((user) => {
+    if (user) window.location.href = "index.html";
+  });
+
+  // Função de login
+  window.login = () => {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    
+    signInWithEmailAndPassword(auth, email, senha)
+      .then(() => window.location.href = "index.html")
+      .catch((error) => {
+        document.getElementById("erro").innerText = "Erro: " + error.message;
+      });
+  };
+
+  // Função de cadastro
+  window.registrar = () => {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    
+    createUserWithEmailAndPassword(auth, email, senha)
+      .then(() => window.location.href = "index.html")
+      .catch((error) => {
+        document.getElementById("erro").innerText = "Erro: " + error.message;
+      });
+  };
+</script>
+</body>
+</html>
